@@ -1,0 +1,61 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+{% include 'components/navbar.html' %}
+
+<nav style="--bs-breadcrumb-divider: '-'" aria-label="breadcrumb" class="py-3 align-middle bg-dark-subtle">
+    <div class="row container-fluid d-flex align-items-center justify-content-center">
+        <div class="col-auto me-auto ms-5">
+            <h4 class="text-dark">Package</h4>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home'%}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Package</li>
+                <li class="breadcrumb-item active" aria-current="page">{{type}}</li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid pt-5 pb-4">
+    <div class="row g-4">
+        {% for activity in activity_list %}
+        <div class="col-12 col-md-3">
+            <a href="/activity/{{type}}/{{ activity.url }}" class="text-decoration-none">
+                <div class="card h-100 border-0 shadow-sm card-lift">
+                    <div class="position-relative">
+                        <img src="{% static 'images/' %}{{ activity.image }}" class="card-img-top rounded-3"
+                            alt="{{ activity.label }} Package" style="height: 250px; object-fit: cover;">
+                        <div
+                            class="card-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                            <span class="badge bg-primary px-3 py-2">Work for {{ activity.label }}</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<style>
+    .card-lift {
+        transition: all 0.3s ease;
+    }
+
+    .card-lift:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .card-overlay {
+        background: rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .card-lift:hover .card-overlay {
+        opacity: 1;
+    }
+</style>
+
+{% endblock content %}

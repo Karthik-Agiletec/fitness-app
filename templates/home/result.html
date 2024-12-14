@@ -1,0 +1,76 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+{% include 'components/navbar.html' %}
+
+<nav style="--bs-breadcrumb-divider: '-'" aria-label="breadcrumb" class="py-3 align-middle bg-danger-subtle">
+    <div class="row container-fluid d-flex align-items-center justify-content-center">
+        <div class="col-auto me-auto ms-5">
+            <h4 class="text-dark">Symptoms</h4>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home'%}">Home</a></li>
+                <!-- <li class="breadcrumb-item active" aria-current="page">Upload</li> -->
+                <li class="breadcrumb-item active" aria-current="page">Symptoms</li>
+                <li class="breadcrumb-item active" aria-current="page">Result</li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="alert alert-primary text-center" role="alert">
+        Fitness App Recommendation : <strong>{{result}}</strong> activity
+    </div>
+
+</div>
+<div class="container-fluid my-4">
+    <div class="card border-0">
+        <div class="card-body">
+            <form id="detectFormDisease">
+                {% csrf_token %}
+                <div class="row gx-3 p-3">
+                <!-- <div class="video-container"> -->
+
+                    {% if video_ids %}
+                    {% for element in video_ids %}
+                    <div class="col-md-4 ml-4">
+                        <!-- Thumbnail image of the YouTube video -->
+                        <img class="thumbnail" src="https://img.youtube.com/vi/{{ element }}/hqdefault.jpg"
+                            alt="Video Thumbnail" onclick="playVideo('{{ element}}')">
+
+                        <!-- Hidden iframe to be shown when the thumbnail is clicked -->
+                        <div id="iframeWrapper" class="iframe-wrapper" >
+                            <iframe id="videoIframe" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+
+                    {% else %}
+                    <p>No valid YouTube URL provided or invalid URL.</p>
+                    {%endif%}
+
+                    <!-- <div class="py-3">
+            <button type="submit" class="btn btn-primary w-100">Predict</button>
+          </div> -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to replace the thumbnail with the iframe on click
+    function playVideo(videoId) {
+        // Hide the thumbnail
+        document.querySelector('.thumbnail').style.display = 'none';
+
+        // Show the iframe
+        var iframe = document.getElementById('videoIframe');
+        iframe.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1"; // Autoplay video
+        document.getElementById('iframeWrapper').style.display = 'block'; // Show iframe
+    }
+</script>
+<script src="{% static 'js/upload.js' %}"></script>
+
+
+{% endblock content %}

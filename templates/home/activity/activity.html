@@ -1,0 +1,31 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+{% include 'components/navbar.html' %}
+
+<div class="container-fluid py-4">
+    <div class="title">
+        <h4><strong>{{ activities.category|slice:":1"|upper }}{{ activities.category|slice:"1:" }} Activity</strong>
+        </h4>
+    </div>
+    <div class="row images py-5">
+        {% for activity in activities.exercises %}
+        <div class="col-md-4 py-2">
+            <div class=" h-100 border rounded-3 p-3">
+                <img src="{{activity.image}}" class="rounded-3" alt="Package"
+                    style="height: 400px; width: 400px; object-fit: contain;">
+                <div class="text-center py-2">
+                    <strong>{{activity.title}}</strong><br />
+                    <small class="text-muted">{{activity.sets}}</small>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock content %}
